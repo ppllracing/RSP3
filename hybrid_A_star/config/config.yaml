@@ -1,0 +1,50 @@
+## 混合 A* 的配置
+  steering_angle_num: 8 # 转向角度离散化选项
+  dt: 0.6 # 用于计算扩展节点时轨迹距离的时间，单位为秒
+  Benchmark_path: TestCases # 案例文件夹名称  BenchmarkCases
+  trajectory_dt: 0.1 # 用于碰撞检测的轨迹离散时间，单位为秒
+  map_discrete_size: 0.2 # 地图的离散化大小，单位为米
+  flag_radius: 18 # 半径，单位为米 (在这个圆形区域内，我们使用 rs 曲线连接目标姿态)
+  extended_num: 0 # 在原始路径末尾扩展的点数
+
+## 混合成本
+  cost_gear: 1
+  cost_heading_change: 0.5
+  cost_scale: 10
+
+## 碰撞检查
+  safe_side_dis: 0.8 # 单位为米的安全侧向距离
+  safe_fr_dis: 0.8 # 单位为米的安全前向距离
+  collision_check: circle # 碰撞检查方法选择: 'circle', 'distance'
+  draw_collision: False # 在搜索新节点时是否绘制碰撞位置
+
+## 路径优化
+  # 路径优化的扩展距离
+  expand_dis: 0.8 # 单位为米
+  # 路径优化时使用的权重
+  smooth_cost: 5
+  compact_cost: 3
+  offset_cost: 0.8
+  slack_cost: 1
+
+## 速度规划
+  # 速度函数类型
+  velocity_func_type: sin_func # 目前只支持 sin_func
+  # 速度规划点的数量
+  velocity_plan_num: 100 # 数量
+
+## 最优控制问题优化
+  # 对转向角度的成本系数
+  cost_steering_angle: 10
+  cost_omega: 10
+  cost_acceleration: 10
+  cost_velocity: 10
+  cost_time: 100
+## 文件信息
+  data_file_path: /mnt/d/parking/datas_2.json
+  oup_json_path: ./new_datas/datas_2.json
+## 信息保存
+  # 保存路径
+  save_path: ./solution_test # 不要编辑   ./solution
+  # 保存图片
+  pic_path: ./pictures

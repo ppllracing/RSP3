@@ -1,2 +1,7 @@
-# RSP3: A RoadSide End-to-End Model for Rapid Parking Path Planning, based on Occupancy Grid Map and Vehicle-to-Infrastructure
-Code and Data will come soon!
+# RSP3:  A RoadSide End-to-End Model for Rapid Parking Path Planning Based on Probability Distribution over Occupancy Map
+
+TODO List:
+
+- [X] Release base code.
+- [ ] Code Intergration.
+- [ ] Release dataset.

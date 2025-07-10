@@ -1,0 +1,217 @@
+cfg:
+  dtype_model: float32  # 模型训练的时候使用： float32
+  dtype_carla: float64  # 与carla进行数据交互的时候使用： float64
+  device: 'cuda'  # cuda, cuda:0, cuda:1, cpu
+  logger_level: INFO  # DEBUG, INFO, WARN, ERROR
+  fps: 30
+  device_num: 1  # 训练设备的数量，[1, 2, ..., multi]
+  current_step: 1  # 1, 2
+
+  for_collect:
+    flag_show: false  # true, false
+    flag_save: true  # true, false
+    plan_time_limit: 20
+    jump_dis: 1.0
+    num_folder_max: 800
+    num_folder_free: 300
+    image_crop: [256, 256]
+    num_obstacle_pp: 12
+
+  for_train:
+    flag_noise: false  # true, false
+    proportion: 0.7
+    batch: 16
+    epoch: 60
+    lr: 0.001
+    patience: 
+    lr_pre_trained:  # 0, 0.001. 0.0001, 0.00001
+
+  for_valid:
+    proportion: 0.3
+    batch: 16
+
+  for_test:
+    proportion: 0.3
+    batch: 16
+    flag_show_on_plot: true  # true, false
+
+  carla_client:
+    ip: 127.0.0.1
+    port: 2000
+    map: 'Town04_Opt'
+
+  paths:
+    logs: ./logs
+    ckpts: ./ckpts
+    datas: ./datas
+    results: ./results
+  
+  cameras:
+    npc:
+      w: 400
+      h: 300
+      fov: 100
+      pp_id:
+        coordinate: 10
+        optional: [9, 10, 11]
+      xyzPYR_relative: [5.0, 0.0, 15, -90.0, 0.0, 0.0]
+    rsu_rgb:
+      w: 400
+      h: 300
+      fov: 100
+      pp_id:
+        coordinate: 10
+        optional: [9, 10, 11]
+      xyzPYR_relative: [-3.5, 0.0, 8.0, -55.0, 0.0, 0.0]
+    rsu_depth:
+      w: 400
+      h: 300
+      fov: 100
+      pp_id:
+        coordinate: 10
+        optional: [9, 10, 11]
+      xyzPYR_relative: [-3.5, 0.0, 8.0, -55.0, 0.0, 0.0]
+    obu_front_rgb:
+      w: 400
+      h: 300
+      fov: 100
+      xyzPYR_relative: [1.5, 0.0, 1.5, 0.0, 0.0, 0.0]
+    obu_front_depth:
+      w: 400
+      h: 300
+      fov: 100
+      xyzPYR_relative: [1.5, 0.0, 1.5, 0.0, 0.0, 0.0]
+    obu_left_rgb:
+      w: 400
+      h: 300
+      fov: 100
+      xyzPYR_relative: [0.0, -0.8, 1.5, -40.0, -90.0, 0.0]
+    obu_left_depth:
+      w: 400
+      h: 300
+      fov: 100
+      xyzPYR_relative: [0.0, -0.8, 1.5, -40.0, -90.0, 0.0]
+    obu_right_rgb:
+      w: 400
+      h: 300
+      fov: 100
+      xyzPYR_relative: [0.0, 0.8, 1.5, -40.0, 90.0, 0.0]
+    obu_right_depth:
+      w: 400
+      h: 300
+      fov: 100
+      xyzPYR_relative: [0.0, 0.8, 1.5, -40.0, 90.0, 0.0]
+    obu_rear_rgb:
+      w: 400
+      h: 300
+      fov: 100
+      xyzPYR_relative: [-2.2, 0.0, 1.5, -30.0, 180.0, 0.0]
+    obu_rear_depth:
+      w: 400
+      h: 300
+      fov: 100
+      xyzPYR_relative: [-2.2, 0.0, 1.5, -30.0, 180.0, 0.0]
+
+  ego:
+    speed: 3
+    autopilot: false
+    xyzPYR: [285.5, -185.9, 0.5, 0.0, -90.0, 0.0]
+    pid_controller_args:
+      forward: 
+        args_lateral: 
+          K_P: 0.5
+          K_I: 0.3
+          K_D: 0.3
+          dt: 0.03333  # 1 / fps
+        args_longitudinal: 
+          K_P: 0.1
+          K_I: 0.0
+          K_D: 0.01
+          dt: 0.03333  # 1 / fps
+      backward: 
+        args_lateral: 
+          K_P: 0.5
+          K_I: 0.3
+          K_D: 0.3
+          dt: 0.03333  # 1 / fps
+        args_longitudinal: 
+          K_P: 0.1
+          K_I: 0.0
+          K_D: 0.01
+          dt: 0.03333  # 1 / fps
+    base_params:
+      wheelbase: 2.9
+      front_hang_length: 0.9
+      rear_hang_length: 1.0
+      width: 2.163
+      max_steering_angle: 0.5
+      max_angular_velocity: 0.2
+      max_acc: 1
+      max_v: 3
+      min_v: -3
+
+  map_bev:
+    num_channel: 4
+    channel_name: ['Free Space', 'Obstcale Space', 'Ego', 'Aim PP']
+    final_dim: [80, 90, 10]
+    resolution: [0.2, 0.2, 0.5]
+    map_down_sample: [32, 36]  # [8 * 4, 9 * 4]
+    d_range: [0.5, 20.5, 0.5]
+    xyzPYR_relative: [5.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+  parking_plot:
+    range: [
+        [290.9, -214.03, -194.66, 1.0, 0.0, 180.0, 0.0],
+        [280.0, -214.03, -194.66, 1.0, 0.0, 0.0, 0.0]
+      ]
+    num_plot_per_row: 7
+  
+  Path:
+    max_num: 35
+    start_value: 1.0
+    end_value: 1.0
+    pad_value: 0.0
+
+  model:
+    is_rsu: true  # true, false
+
+    # bev model
+    BEV_Model:
+      backbone: "efficientnet-b4"
+      bev_down_sample: 4  # 2, 4, 8, 16
+      mid_channel: 64
+      oup_channel: 64
+
+    # bev encoder
+    BEV_Encoder:
+      inp_channel: 64  # BEV_Model[oup_channel]
+      mid_channel: 64  # resnet18的固定值
+      oup_channel: 256  # resnet18的固定值
+    
+    # segmentation
+    Segmentation_Head:
+      inp_channel: 256  # BEV_Encoder[oup_channel]
+      mid_channel: 256
+      num_class: 3  # ['Free Space', 'Obstcale Space', 'Ego']
+    
+    # feature fusion
+    Feature_Fusion:
+      inp_channel: 256  # BEV_Encoder[oup_channel]
+      mid_channel: 256
+      oup_channel: 256
+    
+    # path planning
+    Path_Planning_Head:
+      method: distribution  #  distribution, pathpoint
+      feature_dim: 256  # BEV_Encoder[oup_feature]
+      tf_nhead: 8
+      tf_num_layer: 1
+      tf_dropout: 0.3
+      label_smoothing: 0.1
+
+  ckpts:
+    step_1: 
+    step_2:
+
+  test_case:
+    num: 200
